@@ -1,0 +1,13 @@
+{
+  "name": "nox-art-crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.go",
+  "scripts": {
+   "dev": "go run main.go",
+    "build": "go build",
+    "start": "go build && ./nox-art-crawler"
+  },
+  "author": "",
+  "license": "ISC"
+}
