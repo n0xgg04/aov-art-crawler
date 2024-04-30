@@ -2,6 +2,16 @@
 
 - Fast AOV Crawler, save image automatically
 ### Installations:
+Add your art API to ``constants/api.go``
+
+```go
+ArtAPI = map[string]string{
+"cn": "",
+"tw": "",
+"vn": "",
+}
+```
+
 Install go modules:
 ```bash
 go get
