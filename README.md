@@ -6,9 +6,9 @@ Add your art API to ``constants/api.go``
 
 ```go
 ArtAPI = map[string]string{
-"cn": "",
-"tw": "",
-"vn": "",
+"cn": "https://abc/HeroTrainingLoading/##ID##.jpg",
+"tw": "https://abc/HeroTrainingLoading/##ID##.jpg",
+"vn": "https://abc/HeroTrainingLoading/##ID##.jpg",
 }
 ```
 
