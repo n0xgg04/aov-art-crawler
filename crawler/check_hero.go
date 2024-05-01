@@ -58,7 +58,7 @@ skinScan:
 					} else {
 						f, e := os.Create(path.Join(heroPath, skinId+".jpg"))
 						if e != nil {
-							color.Red("[Save failed] Failed to save image")
+							color.Red("[Save failed] Failed to save image (" + e.Error() + ")")
 						} else {
 							_, err = f.ReadFrom(buf)
 							if err == nil {
