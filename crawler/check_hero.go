@@ -27,7 +27,7 @@ func fileExists(filename string) bool {
 	return !info.IsDir()
 }
 
-func Crawl(heroId string) int {
+func Crawl(heroId string, wk chan<- constants.Works) int {
 	heroPath := filepath.Join(filepath.Dir(f), filepath.Base(f), "data", "art", heroId)
 	failed := 0
 	total := 0
@@ -40,7 +40,7 @@ skinScan:
 		skinId += strconv.Itoa(i)
 		if fileExists(path.Join(heroPath, skinId+".jpg")) {
 			total++
-			color.White("[Skip] Found before %s", skinId)
+			//	color.White("[Skip] Found before %s", skinId)
 			continue skinScan
 		}
 
@@ -63,14 +63,20 @@ skinScan:
 							_, err = f.ReadFrom(buf)
 							if err == nil {
 								total++
-								color.Green("[Found art] Found new art %s in server %s.", skinId, server)
+								wk <- constants.Works{
+									SkinId:   skinId,
+									PhotoUrl: strings.ReplaceAll(api, "##ID##", skinId),
+									Server:   server,
+								}
+								//color.Green("[Found art] Found new art %s in server %s.", skinId, server)
 								_ = f.Close()
 								break serverScan
 							}
 						}
 					}
 				} else {
-					color.Yellow("[Not Found] Skin %s in server %s.", skinId, server)
+					//color.Yellow("[Not Found] Skin %s in server %s.", skinId, server)
+
 					failed++
 				}
 			}
@@ -79,7 +85,7 @@ skinScan:
 	return total
 }
 
-func CheckHero(heroId string, ch chan<- string) {
+func CheckHero(heroId string, ch chan<- string, wk chan<- constants.Works) {
 	path2 := filepath.Join(filepath.Dir(f), filepath.Base(f), "data", "art", heroId)
 	isExisted := fs.ValidPath(path2)
 	if !isExisted {
@@ -88,5 +94,5 @@ func CheckHero(heroId string, ch chan<- string) {
 			panic("Can't create folder for " + heroId)
 		}
 	}
-	ch <- strconv.Itoa(Crawl(heroId))
+	ch <- strconv.Itoa(Crawl(heroId, wk))
 }
